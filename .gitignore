@@ -1,0 +1,49 @@
+# -----------------------------
+# Build output
+# -----------------------------
+# Maven
+**/target/
+# Gradle
+**/build/
+**/.gradle/
+
+# -----------------------------
+# Compiled files
+# -----------------------------
+**/*.class
+
+# -----------------------------
+# Logs
+# -----------------------------
+**/*.log
+
+# -----------------------------
+# IDE files
+# -----------------------------
+# Eclipse
+**/.classpath
+**/.project
+**/.settings/
+# IntelliJ
+**/.idea/
+**/*.iml
+# VS Code
+**/.vscode/
+
+# -----------------------------
+# OS generated
+# -----------------------------
+**/.DS_Store
+**/Thumbs.db
+
+# -----------------------------
+# Environment files
+# -----------------------------
+**/.env
+
+# -----------------------------
+# Maven Wrapper
+# we DO commit the wrapper itself, so re-include its jar & props
+# -----------------------------
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
