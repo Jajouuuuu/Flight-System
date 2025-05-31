@@ -12,6 +12,7 @@
     <modules>
         <module>configuration</module>
         <module>customer-service</module>
+        <module>flight-service</module>
     </modules>
 
     <properties>
