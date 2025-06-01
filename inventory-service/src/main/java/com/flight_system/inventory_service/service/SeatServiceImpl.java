@@ -5,6 +5,7 @@ import com.flight_system.inventory_service.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,5 +31,11 @@ public class SeatServiceImpl implements SeatService {
         seat.setAvailable(false);
         return seatRepository.save(seat);
     }
+
+    @Override
+    public int countAvailableSeats(String flightNumber, LocalDateTime departureDateTime) {
+        return seatRepository.countAvailableSeats(flightNumber, departureDateTime);
+    }
+
 }
 
