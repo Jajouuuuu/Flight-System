@@ -4,6 +4,7 @@ import com.flight_system.booking_service.model.Booking;
 import com.flight_system.booking_service.repository.BookingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookingService {
     private final BookingRepository bookingRepository;
     private final RestTemplate restTemplate;
@@ -26,54 +28,82 @@ public class BookingService {
 
     @Transactional
     public Booking createBooking(Booking booking) {
+        log.info("Creating booking: {}", booking);
+        
         // Generate unique booking number
         booking.setBookingNumber("BK" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
         
         // Verify flight availability using circuit breaker
         CircuitBreaker flightCircuitBreaker = circuitBreakerFactory.create("flight-service");
         Map<String, Object> flightData = flightCircuitBreaker.run(
-            () -> restTemplate.getForObject(
-                "http://flight-service/api/flights/" + booking.getFlightId(),
-                Map.class
-            ),
-            throwable -> Map.of()
+            () -> {
+                try {
+                    return restTemplate.getForObject(
+                        "http://flight-service/api/flights/{id}",
+                        Map.class,
+                        booking.getFlightId()
+                    );
+                } catch (Exception e) {
+                    log.error("Error verifying flight: {}", e.getMessage());
+                    throw e;
+                }
+            },
+            throwable -> {
+                log.error("Circuit breaker fallback for flight service: {}", throwable.getMessage());
+                throw new RuntimeException("Flight service is not available", throwable);
+            }
         );
 
-        if (flightData.isEmpty()) {
-            throw new RuntimeException("Flight service is not available");
+        if (flightData == null) {
+            throw new EntityNotFoundException("Flight not found with id: " + booking.getFlightId());
         }
 
         // Verify customer using circuit breaker
         CircuitBreaker customerCircuitBreaker = circuitBreakerFactory.create("customer-service");
         Map<String, Object> customerData = customerCircuitBreaker.run(
-            () -> restTemplate.getForObject(
-                "http://customer-service/api/customers/" + booking.getCustomerId(),
-                Map.class
-            ),
-            throwable -> Map.of()
+            () -> {
+                try {
+                    return restTemplate.getForObject(
+                        "http://customer-service/api/customers/{id}",
+                        Map.class,
+                        booking.getCustomerId()
+                    );
+                } catch (Exception e) {
+                    log.error("Error verifying customer: {}", e.getMessage());
+                    throw e;
+                }
+            },
+            throwable -> {
+                log.error("Circuit breaker fallback for customer service: {}", throwable.getMessage());
+                throw new RuntimeException("Customer service is not available", throwable);
+            }
         );
 
-        if (customerData.isEmpty()) {
-            throw new RuntimeException("Customer service is not available");
+        if (customerData == null) {
+            throw new EntityNotFoundException("Customer not found with id: " + booking.getCustomerId());
         }
 
-        // Check seat availability
-        if (booking.getSeatNumber() != null && 
-            bookingRepository.existsByFlightIdAndSeatNumber(booking.getFlightId(), booking.getSeatNumber())) {
-            throw new RuntimeException("Selected seat is already taken");
-        }
+        // Set initial status
+        booking.setBookingStatus("PENDING");
+        booking.setPaymentStatus("PENDING");
 
         // Save booking
         Booking savedBooking = bookingRepository.save(booking);
+        log.info("Booking created successfully: {}", savedBooking);
 
         // Publish booking created event
-        kafkaTemplate.send("booking-created", Map.of(
-            "bookingId", savedBooking.getId(),
-            "bookingNumber", savedBooking.getBookingNumber(),
-            "customerId", savedBooking.getCustomerId(),
-            "flightNumber", savedBooking.getFlightNumber(),
-            "status", savedBooking.getBookingStatus()
-        ));
+        try {
+            kafkaTemplate.send("booking-created", Map.of(
+                "bookingId", savedBooking.getId(),
+                "bookingNumber", savedBooking.getBookingNumber(),
+                "customerId", savedBooking.getCustomerId(),
+                "flightNumber", savedBooking.getFlightNumber(),
+                "status", savedBooking.getBookingStatus()
+            ));
+        } catch (Exception e) {
+            log.error("Error publishing booking created event: {}", e.getMessage());
+            // Don't fail the booking creation if event publishing fails
+        }
 
         return savedBooking;
     }
