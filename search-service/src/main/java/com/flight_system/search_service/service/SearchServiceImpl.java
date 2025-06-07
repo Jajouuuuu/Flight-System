@@ -1,9 +1,8 @@
 package com.flight_system.search_service.service;
 
-import com.flight_system.search_service.client.FlightClient;
-import com.flight_system.search_service.client.InventoryClient;
-import com.flight_system.search_service.dto.FlightDTO;
-import com.flight_system.search_service.dto.SearchResultDTO;
+import com.flight_system.search_service.dto.FlightSearchResultDTO;
+import com.flight_system.search_service.feign.FlightClient;
+import com.flight_system.search_service.feign.InventoryClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +18,37 @@ public class SearchServiceImpl implements SearchService {
     private final InventoryClient inventoryClient;
 
     @Override
-    public List<SearchResultDTO> search(String origin, String destination, LocalDate date) {
-        List<FlightDTO> flights = flightClient.searchFlights(origin, destination, date);
-        return flights.stream().map(flight -> {
-            int availableSeats = inventoryClient.countAvailableSeats(
-                    flight.getFlightNumber(),
-                    flight.getDepartureTime().toString()
-            );
-            return new SearchResultDTO(
-                    flight.getFlightNumber(),
-                    flight.getDepartureTime(),
-                    flight.getAircraft(),
-                    availableSeats
-            );
-        }).collect(Collectors.toList());
+    public List<FlightSearchResultDTO> searchFlights(String origin, String destination, LocalDate departureDate) {
+        // 1. Search for flights
+        return flightClient.searchFlights(origin, destination, departureDate).stream()
+                // 2. For each flight, get inventory
+                .map(flight -> {
+                    try {
+                        int availableSeats = inventoryClient.getInventoryByFlightId(flight.getId()).getAvailableSeats();
+                        return new FlightSearchResultDTO(
+                                flight.getId(),
+                                flight.getFlightNumber(),
+                                flight.getOrigin(),
+                                flight.getDestination(),
+                                flight.getDepartureTime(),
+                                flight.getArrivalTime(),
+                                flight.getPrice(),
+                                availableSeats
+                        );
+                    } catch (Exception e) {
+                        // If inventory is not found, treat as 0 seats available
+                        return new FlightSearchResultDTO(
+                                flight.getId(),
+                                flight.getFlightNumber(),
+                                flight.getOrigin(),
+                                flight.getDestination(),
+                                flight.getDepartureTime(),
+                                flight.getArrivalTime(),
+                                flight.getPrice(),
+                                0
+                        );
+                    }
+                })
+                .collect(Collectors.toList());
     }
 }

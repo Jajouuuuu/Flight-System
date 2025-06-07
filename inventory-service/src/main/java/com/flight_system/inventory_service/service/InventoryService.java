@@ -1,14 +1,13 @@
 package com.flight_system.inventory_service.service;
 
-import com.flight_system.inventory_service.model.Inventory;
-
-import java.util.List;
-import java.util.Optional;
+import com.flight_system.inventory_service.model.FlightInventory;
+import java.util.Map;
 
 public interface InventoryService {
-    Inventory createInventory(Inventory inventory);
-    List<Inventory> getAll();
-    Optional<Inventory> getByFlightNumber(String flightNumber);
-    Inventory updateInventory(String flightNumber, int reservedSeats);
+    void handleFlightCreated(Map<String, Object> flightData);
+    void handleFlightCancelled(Map<String, Object> flightData);
+    FlightInventory getInventoryByFlightId(Long flightId);
+    void reserveSeats(String flightNumber, int seatsToReserve);
+    void releaseSeats(String flightNumber, int seatsToRelease);
 }
 
