@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: customer-service
+  config:
+    import: "optional:configserver:http://localhost:8888"
   datasource:
     url: jdbc:h2:mem:customerdb
     driver-class-name: org.h2.Driver
@@ -12,15 +14,37 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-  cloud:
-    config:
-      enabled: false
+    database-platform: org.hibernate.dialect.H2Dialect
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# Temporarily disabled Kafka configuration
+#kafka:
+#  bootstrap-servers: localhost:9092
+#  producer:
+#    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#  consumer:
+#    group-id: customer-service-group
+#    auto-offset-reset: earliest
+#    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#    properties:
+#      spring.json.trusted.packages: "com.flight_system.customer_service.model"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

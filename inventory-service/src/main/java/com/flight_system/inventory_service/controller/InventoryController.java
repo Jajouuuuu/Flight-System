@@ -1,36 +1,32 @@
 package com.flight_system.inventory_service.controller;
 
-import com.flight_system.inventory_service.model.Inventory;
+import com.flight_system.inventory_service.model.FlightInventory;
 import com.flight_system.inventory_service.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/inventory")
 @RequiredArgsConstructor
 public class InventoryController {
-
     private final InventoryService inventoryService;
 
-    @PostMapping
-    public Inventory create(@RequestBody Inventory inventory) {
-        return inventoryService.createInventory(inventory);
+    @GetMapping("/flight/{flightId}")
+    public ResponseEntity<FlightInventory> getInventory(@PathVariable Long flightId) {
+        return ResponseEntity.ok(inventoryService.getInventoryByFlightId(flightId));
     }
 
-    @GetMapping
-    public List<Inventory> getAll() {
-        return inventoryService.getAll();
+    @PostMapping("/flight/{flightNumber}/reserve")
+    public ResponseEntity<Void> reserveSeats(@PathVariable String flightNumber, @RequestParam int seats) {
+        inventoryService.reserveSeats(flightNumber, seats);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{flightNumber}")
-    public ResponseEntity<Inventory> getByFlight(@PathVariable String flightNumber) {
-        return inventoryService.getByFlightNumber(flightNumber)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PostMapping("/flight/{flightNumber}/release")
+    public ResponseEntity<Void> releaseSeats(@PathVariable String flightNumber, @RequestParam int seats) {
+        inventoryService.releaseSeats(flightNumber, seats);
+        return ResponseEntity.ok().build();
     }
-
 }
 

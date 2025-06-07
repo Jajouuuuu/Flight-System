@@ -6,9 +6,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class FlightDTO {
+    private Long id;
     private String flightNumber;
     private String origin;
     private String destination;
     private LocalDateTime departureTime;
-    private String aircraft;
+    private LocalDateTime arrivalTime;
+    private double price;
 }
