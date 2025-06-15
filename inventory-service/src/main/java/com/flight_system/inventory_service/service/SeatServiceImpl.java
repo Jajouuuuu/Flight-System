@@ -1,5 +1,7 @@
 package com.flight_system.inventory_service.service;
 
+import com.flight_system.inventory_service.exceptions.SeatAlreadyReservedException;
+import com.flight_system.inventory_service.exceptions.SeatNotFoundException;
 import com.flight_system.inventory_service.model.Seat;
 import com.flight_system.inventory_service.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,11 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Seat reserveSeat(String flightNumber, String seatNumber) {
         Seat seat = seatRepository.findBySeatNumberAndInventoryFlightNumber(seatNumber, flightNumber)
-                .orElseThrow(() -> new RuntimeException("Seat not found"));
+                .orElseThrow(() ->
+                        new SeatNotFoundException("Seat " + seatNumber + " not found for flight " + flightNumber));
 
         if (!seat.isAvailable()) {
-            throw new RuntimeException("Seat already reserved");
+            throw new SeatAlreadyReservedException("Seat " + seatNumber + " on flight " + flightNumber + " is already reserved");
         }
 
         seat.setAvailable(false);
@@ -34,8 +37,9 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public int countAvailableSeats(String flightNumber, LocalDateTime departureDateTime) {
+        if (departureDateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Departure time must be in the future");
+        }
         return seatRepository.countAvailableSeats(flightNumber, departureDateTime);
     }
-
 }
-

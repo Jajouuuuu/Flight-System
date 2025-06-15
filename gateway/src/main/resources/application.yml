@@ -57,6 +57,10 @@ spring:
           uri: lb://inventory-service
           predicates:
             - Path=/api/inventory/**
+        - id: inventory-seats
+          uri: lb://inventory-service
+          predicates:
+            - Path=/seats/**
         - id: reservation-service
           uri: lb://reservation-service
           predicates:

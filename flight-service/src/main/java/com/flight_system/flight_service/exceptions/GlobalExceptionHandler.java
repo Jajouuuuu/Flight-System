@@ -1,0 +1,66 @@
+package com.flight_system.flight_service.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AircraftNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleAircraftNotFound(AircraftNotFoundException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RouteNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleRouteNotFound(RouteNotFoundException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FlightNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleFlightNotFound(FlightNotFoundException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(err ->
+                errors.put(err.getField(), err.getDefaultMessage()));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Map<String, String>> handleNullPointer(NullPointerException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "A null value caused a system error");
+        error.put("exception", "NullPointerException");
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleUnexpectedExceptions(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "An unexpected error occurred");
+        error.put("exception", ex.getClass().getSimpleName());
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<Map<String, String>> buildErrorResponse(String message, HttpStatus status) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
+        return new ResponseEntity<>(error, status);
+    }
+}

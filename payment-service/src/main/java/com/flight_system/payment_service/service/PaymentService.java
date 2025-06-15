@@ -1,5 +1,6 @@
 package com.flight_system.payment_service.service;
 
+import com.flight_system.payment_service.exceptions.PaymentNotFoundException;
 import com.flight_system.payment_service.model.Payment;
 import com.flight_system.payment_service.repository.PaymentRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,7 +42,7 @@ public class PaymentService {
     @Transactional
     public Payment processPayment(String bookingNumber) {
         Payment payment = paymentRepository.findByBookingNumber(bookingNumber)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found for booking: " + bookingNumber));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found for booking: " + bookingNumber));
 
         // Simulate payment processing
         payment.setTransactionId(UUID.randomUUID().toString());
@@ -62,6 +63,6 @@ public class PaymentService {
     @Transactional(readOnly = true)
     public Payment getPaymentByBookingNumber(String bookingNumber) {
         return paymentRepository.findByBookingNumber(bookingNumber)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found for booking: " + bookingNumber));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found for booking: " + bookingNumber));
     }
 } 

@@ -1,15 +1,14 @@
 package com.flight_system.booking_service.controller;
 
+import com.flight_system.booking_service.exceptions.BookingNotFoundException;
 import com.flight_system.booking_service.model.Booking;
 import com.flight_system.booking_service.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,7 +24,11 @@ public class BookingController {
 
     @GetMapping("/{bookingNumber}")
     public ResponseEntity<Booking> getBooking(@PathVariable String bookingNumber) {
-        return ResponseEntity.ok(bookingService.getBookingByNumber(bookingNumber));
+        Booking booking = bookingService.getBookingByNumber(bookingNumber);
+        if (booking == null) {
+            throw new BookingNotFoundException("Booking not found with number: " + bookingNumber);
+        }
+        return ResponseEntity.ok(booking);
     }
 
     @PutMapping("/{bookingNumber}")
@@ -49,17 +52,29 @@ public class BookingController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Booking>> getCustomerBookings(@PathVariable Long customerId) {
-        return ResponseEntity.ok(bookingService.getBookingsByCustomerId(customerId));
+        List<Booking> bookings = bookingService.getBookingsByCustomerId(customerId);
+        if (bookings.isEmpty()) {
+            throw new BookingNotFoundException("No bookings found for customer with ID: " + customerId);
+        }
+        return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/customer/{customerId}/upcoming")
     public ResponseEntity<List<Booking>> getUpcomingBookings(@PathVariable Long customerId) {
-        return ResponseEntity.ok(bookingService.getUpcomingBookings(customerId));
+        List<Booking> bookings = bookingService.getUpcomingBookings(customerId);
+        if (bookings.isEmpty()) {
+            throw new BookingNotFoundException("No upcoming bookings found for customer with ID: " + customerId);
+        }
+        return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/flight/{flightNumber}")
     public ResponseEntity<List<Booking>> getFlightBookings(@PathVariable String flightNumber) {
-        return ResponseEntity.ok(bookingService.getBookingsByFlightNumber(flightNumber));
+        List<Booking> bookings = bookingService.getBookingsByFlightNumber(flightNumber);
+        if (bookings.isEmpty()) {
+            throw new BookingNotFoundException("No bookings found for flight number: " + flightNumber);
+        }
+        return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/flight/{flightId}/count")
@@ -75,4 +90,4 @@ public class BookingController {
         bookingService.updatePaymentStatus(bookingNumber, paymentId, status);
         return ResponseEntity.ok().build();
     }
-} 
+}
