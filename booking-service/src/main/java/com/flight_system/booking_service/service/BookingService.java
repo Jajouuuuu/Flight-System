@@ -139,10 +139,11 @@ public class BookingService {
 
         // Publish booking confirmed event
         kafkaTemplate.send("booking-confirmed", Map.of(
-            "bookingId", booking.getId(),
-            "bookingNumber", booking.getBookingNumber(),
-            "customerId", booking.getCustomerId(),
-            "flightNumber", booking.getFlightNumber()
+                "bookingId", booking.getId(),
+                "bookingNumber", booking.getBookingNumber(),
+                "customerId", booking.getCustomerId(),
+                "flightNumber", booking.getFlightNumber(),
+                "totalPrice", booking.getTotalPrice()
         ));
     }
 

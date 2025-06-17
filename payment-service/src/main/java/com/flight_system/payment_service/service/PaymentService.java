@@ -27,10 +27,12 @@ public class PaymentService {
     public void handleBookingConfirmed(Map<String, Object> bookingData) {
         log.info("Received booking confirmed event: {}", bookingData);
         String bookingNumber = (String) bookingData.get("bookingNumber");
+        String flightNumber = (String) bookingData.get("flightNumber");
         Double amount = (Double) bookingData.get("totalPrice");
 
         Payment payment = Payment.builder()
                 .bookingNumber(bookingNumber)
+                .flightNumber(flightNumber)
                 .amount(amount)
                 .paymentMethod("Credit Card") // Default payment method
                 .status("PENDING")
@@ -52,9 +54,11 @@ public class PaymentService {
         Payment savedPayment = paymentRepository.save(payment);
 
         kafkaTemplate.send("payment-completed", Map.of(
-            "bookingNumber", savedPayment.getBookingNumber(),
-            "transactionId", savedPayment.getTransactionId(),
-            "status", savedPayment.getStatus()
+                "bookingNumber", savedPayment.getBookingNumber(),
+                "transactionId", savedPayment.getTransactionId(),
+                "status", savedPayment.getStatus(),
+                "amount", savedPayment.getAmount(),
+                "flightNumber", savedPayment.getFlightNumber()
         ));
 
         return savedPayment;

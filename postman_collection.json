@@ -1178,6 +1178,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "revenue", "date", "{{revenueDate}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Flight Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/flight/{{flightNumber}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "revenue", "flight", "{{flightNumber}}"]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -1246,6 +1276,11 @@
 		{
 			"key": "departureDate",
 			"value": "2024-01-01"
+		},
+		{
+			"key": "revenueDate",
+			"value": "2024-01-01"
 		}
+
 	]
 }
