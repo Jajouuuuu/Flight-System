@@ -16,55 +16,55 @@ spring:
         - id: customer-service
           uri: lb://customer-service
           predicates:
-            - Path=/api/customers/**
+            - Path=/api/v1/customers/**
         - id: flight-service
           uri: lb://flight-service
           predicates:
-            - Path=/api/flights/**, /api/routes/**, /api/aircraft/**
+            - Path=/api/v1/flights/**, /api/v1/routes/**, /api/v1/aircraft/**
         - id: booking-service
           uri: lb://booking-service
           predicates:
-            - Path=/api/bookings/**
+            - Path=/api/v1/bookings/**
         - id: check-in-service
           uri: lb://check-in-service
           predicates:
-            - Path=/api/check-ins/**
+            - Path=/api/v1/check-ins/**
         - id: notification-service
           uri: lb://notification-service
           predicates:
-            - Path=/api/notifications/**
+            - Path=/api/v1/notifications/**
         - id: payment-service
           uri: lb://payment-service
           predicates:
-            - Path=/api/payments/**
+            - Path=/api/v1/payments/**
         - id: revenue-service
           uri: lb://revenue-service
           predicates:
-            - Path=/api/revenue/**
+            - Path=/api/v1/revenue/**
         - id: reporting-service
           uri: lb://reporting-service
           predicates:
-            - Path=/api/reports/**
+            - Path=/api/v1/reports/**
         - id: accounting-service
           uri: lb://accounting-service
           predicates:
-            - Path=/api/accounting/**
+            - Path=/api/v1/accounting/**
         - id: search-service
           uri: lb://search-service
           predicates:
-            - Path=/api/search/**
+            - Path=/api/v1/search/**
         - id: inventory-service
           uri: lb://inventory-service
           predicates:
-            - Path=/api/inventory/**
+            - Path=/api/v1/inventory/**, /api/v1/seats/**
         - id: reservation-service
           uri: lb://reservation-service
           predicates:
-            - Path=/api/reservations/**
+            - Path=/api/v1/reservations/**
         - id: customer-profile-service
           uri: lb://customer-profile-service
           predicates:
-            - Path=/api/profile/**
+            - Path=/api/v1/profile/**
 
 eureka:
   client:

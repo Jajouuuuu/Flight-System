@@ -16,14 +16,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/customers",
+							"raw": "http://localhost:8080/api/v1/customers",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers"
 							]
 						}
@@ -36,14 +36,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/customers/{{customerId}}",
+							"raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers",
 								"{{customerId}}"
 							]
@@ -57,14 +57,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/customers/email/{{email}}",
+							"raw": "http://localhost:8080/api/v1/customers/email/{{email}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers",
 								"email",
 								"{{email}}"
@@ -88,14 +88,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/customers",
+							"raw": "http://localhost:8080/api/v1/customers",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers"
 							]
 						}
@@ -117,14 +117,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/customers/{{customerId}}",
+							"raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers",
 								"{{customerId}}"
 							]
@@ -138,14 +138,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/customers/{{customerId}}",
+							"raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers",
 								"{{customerId}}"
 							]
@@ -159,14 +159,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/customers/search?lastName={{lastName}}",
+							"raw": "http://localhost:8080/api/v1/customers/search?lastName={{lastName}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"customers",
 								"search"
 							],
@@ -200,14 +200,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/flights",
+							"raw": "http://localhost:8080/api/v1/flights",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights"
 							]
 						}
@@ -220,14 +220,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights",
+							"raw": "http://localhost:8080/api/v1/flights",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights"
 							]
 						}
@@ -240,14 +240,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/{{flightId}}",
+							"raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"{{flightId}}"
 							]
@@ -261,14 +261,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/number/{{flightNumber}}",
+							"raw": "http://localhost:8080/api/v1/flights/number/{{flightNumber}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"number",
 								"{{flightNumber}}"
@@ -292,14 +292,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/flights/{{flightId}}",
+							"raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"{{flightId}}"
 							]
@@ -313,14 +313,14 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/{{flightId}}/status?status={{status}}",
+							"raw": "http://localhost:8080/api/v1/flights/{{flightId}}/status?status={{status}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"{{flightId}}",
 								"status"
@@ -341,14 +341,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/{{flightId}}",
+							"raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"{{flightId}}"
 							]
@@ -362,14 +362,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/search?origin={{origin}}&destination={{destination}}&departureTime={{departureTime}}",
+							"raw": "http://localhost:8080/api/v1/flights/search?origin={{origin}}&destination={{destination}}&departureTime={{departureTime}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"search"
 							],
@@ -397,14 +397,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/status/{{status}}",
+							"raw": "http://localhost:8080/api/v1/flights/status/{{status}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"status",
 								"{{status}}"
@@ -419,14 +419,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/flights/timerange?start={{startTime}}&end={{endTime}}",
+							"raw": "http://localhost:8080/api/v1/flights/timerange?start={{startTime}}&end={{endTime}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"flights",
 								"timerange"
 							],
@@ -459,14 +459,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/aircraft",
+							"raw": "http://localhost:8080/api/v1/aircraft",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"aircraft"
 							]
 						}
@@ -488,14 +488,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/routes",
+							"raw": "http://localhost:8080/api/v1/routes",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"routes"
 							]
 						}
@@ -522,14 +522,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/bookings",
+							"raw": "http://localhost:8080/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings"
 							]
 						}
@@ -542,14 +542,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/{{bookingNumber}}",
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"{{bookingNumber}}"
 							]
@@ -572,14 +572,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/{{bookingNumber}}",
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"{{bookingNumber}}"
 							]
@@ -593,14 +593,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/{{bookingNumber}}/confirm",
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/confirm",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"{{bookingNumber}}",
 								"confirm"
@@ -615,14 +615,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/{{bookingNumber}}/cancel",
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/cancel",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"{{bookingNumber}}",
 								"cancel"
@@ -637,14 +637,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/customer/{{customerId}}",
+							"raw": "http://localhost:8080/api/v1/bookings/customer/{{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"customer",
 								"{{customerId}}"
@@ -659,14 +659,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/customer/{{customerId}}/upcoming",
+							"raw": "http://localhost:8080/api/v1/bookings/customer/{{customerId}}/upcoming",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"customer",
 								"{{customerId}}",
@@ -682,14 +682,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/flight/{{flightNumber}}",
+							"raw": "http://localhost:8080/api/v1/bookings/flight/{{flightNumber}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"flight",
 								"{{flightNumber}}"
@@ -704,14 +704,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/flight/{{flightId}}/count",
+							"raw": "http://localhost:8080/api/v1/bookings/flight/{{flightId}}/count",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"flight",
 								"{{flightId}}",
@@ -727,14 +727,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/bookings/{{bookingNumber}}/payment?paymentId={{paymentId}}&status={{status}}",
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/payment?paymentId={{paymentId}}&status={{status}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"bookings",
 								"{{bookingNumber}}",
 								"payment"
@@ -764,14 +764,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/search/flights?origin={{origin}}&destination={{destination}}&departureDate={{departureDate}}",
+							"raw": "http://localhost:8080/api/v1/search/flights?origin={{origin}}&destination={{destination}}&departureDate={{departureDate}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"search",
 								"flights"
 							],
@@ -804,14 +804,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/inventory/flight/{{flightId}}",
+							"raw": "http://localhost:8080/api/v1/inventory/flight/{{flightId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"inventory",
 								"flight",
 								"{{flightId}}"
@@ -826,14 +826,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/inventory/flight/{{flightNumber}}/reserve?seats={{numberOfSeats}}",
+							"raw": "http://localhost:8080/api/v1/inventory/flight/{{flightNumber}}/reserve?seats={{numberOfSeats}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"inventory",
 								"flight",
 								"{{flightNumber}}",
@@ -855,14 +855,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/inventory/flight/{{flightNumber}}/release?seats={{numberOfSeats}}",
+							"raw": "http://localhost:8080/api/v1/inventory/flight/{{flightNumber}}/release?seats={{numberOfSeats}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"inventory",
 								"flight",
 								"{{flightNumber}}",
@@ -955,14 +955,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/payments/booking/{{bookingNumber}}/pay",
+							"raw": "http://localhost:8080/api/v1/payments/booking/{{bookingNumber}}/pay",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"payments",
 								"booking",
 								"{{bookingNumber}}",
@@ -978,14 +978,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/payments/booking/{{bookingNumber}}",
+							"raw": "http://localhost:8080/api/v1/payments/booking/{{bookingNumber}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"payments",
 								"booking",
 								"{{bookingNumber}}"
@@ -1014,14 +1014,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/check-ins",
+							"raw": "http://localhost:8080/api/v1/check-ins",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"check-ins"
 							]
 						}
@@ -1034,14 +1034,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/check-ins?customerId={{customerId}}",
+							"raw": "http://localhost:8080/api/v1/check-ins?customerId={{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"check-ins"
 							],
 							"query": [
@@ -1065,16 +1065,226 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/profile/{{customerId}}",
+							"raw": "http://localhost:8080/api/v1/profile/{{customerId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
+								"api","v1",
 								"profile",
 								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Revenue Service",
+			"item": [
+				{
+					"name": "Get All Revenue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/{{revenueId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"{{revenueId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Date Range",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/date-range?startDate={{startDate}}&endDate={{endDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"date-range"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Revenue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/total",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Revenue by Date Range",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/total/date-range?startDate={{startDate}}&endDate={{endDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"total",
+								"date-range"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Revenue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 1500.00,\n    \"date\": \"2024-01-01\",\n    \"source\": \"FLIGHT_BOOKING\",\n    \"description\": \"Flight booking revenue\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Revenue",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 1600.00,\n    \"date\": \"2024-01-01\",\n    \"source\": \"FLIGHT_BOOKING\",\n    \"description\": \"Updated flight booking revenue\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/{{revenueId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"{{revenueId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Revenue",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/{{revenueId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api","v1",
+								"revenue",
+								"{{revenueId}}"
 							]
 						}
 					},
@@ -1147,6 +1357,18 @@
 		{
 			"key": "departureDate",
 			"value": "2024-01-01"
+		},
+		{
+			"key": "revenueId",
+			"value": "1"
+		},
+		{
+			"key": "startDate",
+			"value": "2024-01-01"
+		},
+		{
+			"key": "endDate",
+			"value": "2024-01-31"
 		}
 	]
 }

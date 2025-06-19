@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/seats")
+@RequestMapping("/api/v1/seats")
 @RequiredArgsConstructor
 public class SeatController {
 
