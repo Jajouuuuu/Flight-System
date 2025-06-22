@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -63,5 +64,30 @@ public class PaymentService {
     public Payment getPaymentByBookingNumber(String bookingNumber) {
         return paymentRepository.findByBookingNumber(bookingNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found for booking: " + bookingNumber));
+    }
+
+    // Payment management methods
+    @Transactional
+    public Payment createPayment(Payment payment) {
+        log.info("Creating new payment for booking: {}", payment.getBookingNumber());
+        return paymentRepository.save(payment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+
+    @Transactional
+    public Payment updatePaymentStatus(Long paymentId, String status) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: " + paymentId));
+        
+        payment.setStatus(status);
+        if ("COMPLETED".equals(status)) {
+            payment.setPaymentDate(LocalDateTime.now());
+        }
+        
+        return paymentRepository.save(payment);
     }
 } 
