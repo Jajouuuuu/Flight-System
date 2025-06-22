@@ -1187,9 +1187,16 @@
 						"url": {
 							"raw": "http://localhost:8080/api/revenue/date/{{revenueDate}}",
 							"protocol": "http",
-							"host": ["localhost"],
+							"host": [
+								"localhost"
+							],
 							"port": "8080",
-							"path": ["api", "revenue", "date", "{{revenueDate}}"]
+							"path": [
+								"api",
+								"revenue",
+								"date",
+								"{{revenueDate}}"
+							]
 						}
 					},
 					"response": []
@@ -1202,9 +1209,88 @@
 						"url": {
 							"raw": "http://localhost:8080/api/revenue/flight/{{flightNumber}}",
 							"protocol": "http",
-							"host": ["localhost"],
+							"host": [
+								"localhost"
+							],
 							"port": "8080",
-							"path": ["api", "revenue", "flight", "{{flightNumber}}"]
+							"path": [
+								"api",
+								"revenue",
+								"flight",
+								"{{flightNumber}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Revenue Service",
+			"item": [
+				{
+					"name": "Get Revenue by Flight Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/flight/{{flightNumber}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"flight",
+								"{{flightNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"date",
+								"{{revenueDate}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/total/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"total",
+								"date",
+								"{{revenueDate}}"
+							]
 						}
 					},
 					"response": []
@@ -1279,8 +1365,7 @@
 		},
 		{
 			"key": "revenueDate",
-			"value": "2024-01-01"
+			"value": "2025-06-22"
 		}
-
 	]
 }

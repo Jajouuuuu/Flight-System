@@ -58,8 +58,10 @@ public class PaymentService {
                 "transactionId", savedPayment.getTransactionId(),
                 "status", savedPayment.getStatus(),
                 "amount", savedPayment.getAmount(),
-                "flightNumber", savedPayment.getFlightNumber()
+                "flightNumber", savedPayment.getFlightNumber(),
+                "paymentDate", savedPayment.getPaymentDate().toString()
         ));
+
 
         return savedPayment;
     }
