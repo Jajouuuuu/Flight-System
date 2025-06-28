@@ -22,20 +22,14 @@ public class AccountTransaction {
     @Column(name = "transaction_date", nullable = false)
     private LocalDateTime transactionDate;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Column(name = "debit", nullable = false)
-    private Double debit;
-
-    @Column(name = "credit", nullable = false)
-    private Double credit;
+    @Column(name = "amount", nullable = false)
+    private Double amount;
 
     @Column(name = "reference_id")
-    private String referenceId; // e.g., bookingNumber or transactionId
+    private String referenceId; // par exemple numéro de réservation
 
     @PrePersist
     protected void onCreate() {
         transactionDate = LocalDateTime.now();
     }
-} 
+}

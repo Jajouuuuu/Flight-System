@@ -2,7 +2,7 @@ package com.flight_system.booking_service.controller;
 
 import com.flight_system.booking_service.exceptions.BookingNotFoundException;
 import com.flight_system.booking_service.model.Booking;
-import com.flight_system.booking_service.service.BookingService;
+import com.flight_system.booking_service.service.BookingServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
 public class BookingController {
-    private final BookingService bookingService;
+    private final BookingServiceImpl bookingService;
 
     @PostMapping
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody Booking booking) {
