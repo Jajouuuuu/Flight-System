@@ -1,7 +1,7 @@
 package com.flight_system.payment_service.controller;
 
 import com.flight_system.payment_service.model.Payment;
-import com.flight_system.payment_service.service.PaymentService;
+import com.flight_system.payment_service.service.PaymentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentService paymentService;
+    private final PaymentServiceImpl paymentService;
 
     @PostMapping("/booking/{bookingNumber}/pay")
     public ResponseEntity<Payment> pay(@PathVariable String bookingNumber) {

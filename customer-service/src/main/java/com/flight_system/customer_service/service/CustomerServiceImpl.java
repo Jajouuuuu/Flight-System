@@ -1,8 +1,8 @@
 package com.flight_system.customer_service.service;
 
+import com.flight_system.customer_service.exceptions.CustomerNotFoundException;
 import com.flight_system.customer_service.model.Customer;
 import com.flight_system.customer_service.repository.CustomerRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -25,20 +25,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getById(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
     }
 
     @Override
     public Customer getByEmail(String email) {
         return customerRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with email: " + email));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with email: " + email));
     }
 
     @Override
     @Transactional
     public Customer create(Customer customer) {
         if (customerRepository.existsByEmail(customer.getEmail())) {
-            throw new IllegalArgumentException("Email already exists: " + customer.getEmail());
+            throw new CustomerNotFoundException("Email already exists: " + customer.getEmail());
         }
         Customer savedCustomer = customerRepository.save(customer);
         kafkaTemplate.send("customer-created", savedCustomer);
@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
         
         if (!existing.getEmail().equals(updatedCustomer.getEmail()) 
             && customerRepository.existsByEmail(updatedCustomer.getEmail())) {
-            throw new IllegalArgumentException("Email already exists: " + updatedCustomer.getEmail());
+            throw new CustomerNotFoundException("Email already exists: " + updatedCustomer.getEmail());
         }
 
         existing.setFirstName(updatedCustomer.getFirstName());

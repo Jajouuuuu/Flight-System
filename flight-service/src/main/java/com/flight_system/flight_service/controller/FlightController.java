@@ -1,12 +1,12 @@
 package com.flight_system.flight_service.controller;
 
+import com.flight_system.flight_service.exceptions.FlightNotFoundException;
+import com.flight_system.flight_service.model.Flight;
+import com.flight_system.flight_service.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.flight_system.flight_service.model.Flight;
-import com.flight_system.flight_service.service.FlightService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,16 +30,16 @@ public class FlightController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Flight> getById(@PathVariable Long id) {
-        return flightService.getFlightById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Flight flight = flightService.getFlightById(id)
+                .orElseThrow(() -> new FlightNotFoundException("Flight not found with id: " + id));
+        return ResponseEntity.ok(flight);
     }
 
     @GetMapping("/number/{flightNumber}")
     public ResponseEntity<Flight> getByNumber(@PathVariable String flightNumber) {
-        return flightService.getFlightByNumber(flightNumber)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Flight flight = flightService.getFlightByNumber(flightNumber)
+                .orElseThrow(() -> new FlightNotFoundException("Flight not found with number: " + flightNumber));
+        return ResponseEntity.ok(flight);
     }
 
     @PutMapping("/{id}")
@@ -63,19 +63,31 @@ public class FlightController {
             @RequestParam String origin,
             @RequestParam String destination,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
-        return ResponseEntity.ok(flightService.searchFlights(origin, destination, departureTime));
+        List<Flight> flights = flightService.searchFlights(origin, destination, departureTime);
+        if (flights.isEmpty()) {
+            throw new FlightNotFoundException("No flights found from " + origin + " to " + destination + " at " + departureTime);
+        }
+        return ResponseEntity.ok(flights);
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Flight>> getByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(flightService.getFlightsByStatus(status));
+        List<Flight> flights = flightService.getFlightsByStatus(status);
+        if (flights.isEmpty()) {
+            throw new FlightNotFoundException("No flights found with status: " + status);
+        }
+        return ResponseEntity.ok(flights);
     }
 
     @GetMapping("/timerange")
     public ResponseEntity<List<Flight>> getInTimeRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        return ResponseEntity.ok(flightService.getFlightsInTimeRange(start, end));
+        List<Flight> flights = flightService.getFlightsInTimeRange(start, end);
+        if (flights.isEmpty()) {
+            throw new FlightNotFoundException("No flights found between " + start + " and " + end);
+        }
+        return ResponseEntity.ok(flights);
     }
 
     @PatchMapping("/{id}/seats")
@@ -89,4 +101,3 @@ public class FlightController {
         return ResponseEntity.ok(flightService.isFlightNumberAvailable(flightNumber));
     }
 }
-

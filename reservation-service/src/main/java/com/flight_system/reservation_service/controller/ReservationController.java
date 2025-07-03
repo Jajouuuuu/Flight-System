@@ -1,7 +1,7 @@
 package com.flight_system.reservation_service.controller;
 
 import com.flight_system.reservation_service.model.Reservation;
-import com.flight_system.reservation_service.service.ReservationService;
+import com.flight_system.reservation_service.service.ReservationServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
-    private final ReservationService reservationService;
+    private final ReservationServiceImpl reservationService;
 
     @PostMapping
     public ResponseEntity<Reservation> createReservation(@Valid @RequestBody Reservation reservation) {

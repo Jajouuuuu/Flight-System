@@ -17,17 +17,22 @@ public class RevenueService {
     private final RevenueRepository revenueRepository;
 
     @KafkaListener(topics = "payment-completed", groupId = "revenue-service")
-    public void handlePaymentCompleted(Map<String, Object> paymentData) {
-        log.info("Received payment completed event: {}", paymentData);
-        String flightNumber = (String) paymentData.get("flightNumber");
-        Double amount = (Double) paymentData.get("amount");
+    public void handlePaymentCompleted(Map<String, Object> event) {
+        log.info("Received payment completed event: {}", event);
 
-        Revenue revenue = Revenue.builder()
+        String flightNumber = (String) event.get("flightNumber");
+        Double amount = Double.valueOf(event.get("amount").toString());
+
+        String paymentDateStr = (String) event.get("paymentDate");
+        LocalDate revenueDate = paymentDateStr != null
+                ? LocalDate.parse(paymentDateStr.substring(0, 10))
+                : LocalDate.now(); // fallback
+
+        revenueRepository.save(Revenue.builder()
                 .flightNumber(flightNumber)
-                .revenueDate(LocalDate.now())
+                .revenueDate(revenueDate)
                 .amount(amount)
-                .build();
-        
-        revenueRepository.save(revenue);
+                .build());
     }
+
 } 

@@ -25,6 +25,9 @@ public class Payment {
     @Column(name = "booking_number", nullable = false)
     private String bookingNumber;
 
+    @Column(name = "flight_number")
+    private String flightNumber;
+
     @NotNull
     @Positive
     @Column(name = "amount", nullable = false)

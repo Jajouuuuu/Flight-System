@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# adjust if your Kafka lives elsewhere
-KAFKA_HOME="$HOME/Downloads/kafka_2.13-3.9.1"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # List of your Spring-Boot modules
 services=(
-   accounting-service
-    booking-service
+  accounting-service
+  booking-service
   check-in-service
   customer-profile-service
   customer-service
@@ -17,12 +15,17 @@ services=(
   payment-service
   reservation-service
   revenue-service
-    search-service
+  search-service
 )
 
-# 2) One new window per service
 for svc in "${services[@]}"; do
-  gnome-terminal \
-    --title="$svc" -- bash -ic \
-      "cd $PROJECT_ROOT/$svc && mvn spring-boot:run; exec bash"
+  osascript <<EOF
+    tell application "Terminal"
+      activate
+      set newTab to do script "cd '$PROJECT_ROOT/$svc' && ./mvnw spring-boot:run"
+      tell newTab
+        set custom title to "$svc"
+      end tell
+    end tell
+EOF
 done

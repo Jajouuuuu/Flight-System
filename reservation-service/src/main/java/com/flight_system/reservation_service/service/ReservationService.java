@@ -1,15 +1,6 @@
 package com.flight_system.reservation_service.service;
 
-import com.flight_system.reservation_service.feign.InventoryClient;
 import com.flight_system.reservation_service.model.Reservation;
-import com.flight_system.reservation_service.repository.ReservationRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;

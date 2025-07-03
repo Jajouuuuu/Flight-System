@@ -1,5 +1,6 @@
 package com.flight_system.flight_service.controller;
 
+import com.flight_system.flight_service.exceptions.RouteNotFoundException;
 import com.flight_system.flight_service.model.Route;
 import com.flight_system.flight_service.service.RouteService;
 import jakarta.validation.Valid;
@@ -23,16 +24,16 @@ public class RouteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Route> getRouteById(@PathVariable Long id) {
-        return routeService.getRouteById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Route route = routeService.getRouteById(id)
+                .orElseThrow(() -> new RouteNotFoundException("Route not found with id: " + id));
+        return ResponseEntity.ok(route);
     }
 
     @GetMapping("/code/{routeCode}")
     public ResponseEntity<Route> getRouteByCode(@PathVariable String routeCode) {
-        return routeService.getRouteByCode(routeCode)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Route route = routeService.getRouteByCode(routeCode)
+                .orElseThrow(() -> new RouteNotFoundException("Route not found with code: " + routeCode));
+        return ResponseEntity.ok(route);
     }
 
     @PostMapping
@@ -53,30 +54,46 @@ public class RouteController {
 
     @GetMapping("/origin/{originAirport}")
     public ResponseEntity<List<Route>> getRoutesByOrigin(@PathVariable String originAirport) {
-        return ResponseEntity.ok(routeService.getRoutesByOrigin(originAirport));
+        List<Route> routes = routeService.getRoutesByOrigin(originAirport);
+        if (routes.isEmpty()) {
+            throw new RouteNotFoundException("No routes found from origin: " + originAirport);
+        }
+        return ResponseEntity.ok(routes);
     }
 
     @GetMapping("/destination/{destinationAirport}")
     public ResponseEntity<List<Route>> getRoutesByDestination(@PathVariable String destinationAirport) {
-        return ResponseEntity.ok(routeService.getRoutesByDestination(destinationAirport));
+        List<Route> routes = routeService.getRoutesByDestination(destinationAirport);
+        if (routes.isEmpty()) {
+            throw new RouteNotFoundException("No routes found to destination: " + destinationAirport);
+        }
+        return ResponseEntity.ok(routes);
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Route>> getRoutesByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(routeService.getRoutesByStatus(status));
+        List<Route> routes = routeService.getRoutesByStatus(status);
+        if (routes.isEmpty()) {
+            throw new RouteNotFoundException("No routes found with status: " + status);
+        }
+        return ResponseEntity.ok(routes);
     }
 
     @GetMapping("/search")
     public ResponseEntity<Route> findByOriginAndDestination(
             @RequestParam String origin,
             @RequestParam String destination) {
-        return routeService.findByOriginAndDestination(origin, destination)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Route route = routeService.findByOriginAndDestination(origin, destination)
+                .orElseThrow(() -> new RouteNotFoundException("No route found from " + origin + " to " + destination));
+        return ResponseEntity.ok(route);
     }
 
     @GetMapping("/within-distance")
     public ResponseEntity<List<Route>> getRoutesWithinDistance(@RequestParam Double maxDistance) {
-        return ResponseEntity.ok(routeService.getRoutesWithinDistance(maxDistance));
+        List<Route> routes = routeService.getRoutesWithinDistance(maxDistance);
+        if (routes.isEmpty()) {
+            throw new RouteNotFoundException("No routes found within " + maxDistance + " km");
+        }
+        return ResponseEntity.ok(routes);
     }
-} 
+}

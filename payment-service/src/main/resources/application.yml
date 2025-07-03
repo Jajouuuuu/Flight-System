@@ -33,6 +33,8 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
         spring.json.use.type.headers: false
+        spring.json.value.default.type: java.util.HashMap
+
 
 eureka:
   client:

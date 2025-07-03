@@ -1,6 +1,7 @@
 package com.flight_system.check_in.service;
 
 import com.flight_system.check_in.dto.CheckInDTO;
+import com.flight_system.check_in.exceptions.CheckInAlreadyExistsException;
 import com.flight_system.check_in.model.BoardingPass;
 import com.flight_system.check_in.model.CheckIn;
 import com.flight_system.check_in.repository.BoardingPassRepository;
@@ -29,12 +30,19 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public CheckIn createCheckIn(CheckInDTO checkInDTO) {
+        boolean alreadyExists = checkInRepository.existsByBookingId(checkInDTO.getBookingId());
+
+        if (alreadyExists) {
+            throw new CheckInAlreadyExistsException("A check-in already exists for booking: " + checkInDTO.getBookingId());
+        }
+
         CheckIn checkIn = new CheckIn();
         checkIn.setBookingId(checkInDTO.getBookingId());
         checkIn.setCustomerId(checkInDTO.getCustomerId());
         checkIn.setSeatNumber(checkInDTO.getSeatNumber());
         return checkInRepository.save(checkIn);
     }
+
 
     @Override
     public List<CheckIn> getCheckInsByCustomerId(Long customerId) {

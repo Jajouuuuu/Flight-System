@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CheckInRepository extends JpaRepository<CheckIn, Long> {
     List<CheckIn> findByCustomerId(Long customerId);
+    boolean existsByBookingId(Long bookingId);
+
 } 

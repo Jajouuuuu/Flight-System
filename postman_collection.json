@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "8699b676-be1b-404b-8a06-624c1643e390",
+		"_postman_id": "0d50958d-7ea3-4808-a50c-88e2a2117b13",
 		"name": "Flight System API",
 		"description": "Collection of all Flight System microservices endpoints",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36147114"
+		"_exporter_id": "42889224"
 	},
 	"item": [
 		{
@@ -2068,6 +2068,253 @@
 								"api","v1",
 								"revenue",
 								"{{revenueId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation Service",
+			"item": [
+				{
+					"name": "Create Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": 1,\n    \"flightNumber\": \"FL123\",\n    \"numberOfSeats\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/reservations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reservations/{{reservationNumber}}/confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reservations",
+								"{{reservationNumber}}",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reservations/{{reservationNumber}}/cancel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reservations",
+								"{{reservationNumber}}",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservation by Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reservations/{{reservationNumber}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reservations",
+								"{{reservationNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"date",
+								"{{revenueDate}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Flight Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/flight/{{flightNumber}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"flight",
+								"{{flightNumber}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Revenue Service",
+			"item": [
+				{
+					"name": "Get Revenue by Flight Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/flight/{{flightNumber}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"flight",
+								"{{flightNumber}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"date",
+								"{{revenueDate}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Revenue by Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/revenue/total/date/{{revenueDate}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"revenue",
+								"total",
+								"date",
+								"{{revenueDate}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Accounting Service",
+			"item": [
+				{
+					"name": "Get Accounting Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/accounting/summary?year=2025",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounting",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2025"
+								}
 							]
 						}
 					},

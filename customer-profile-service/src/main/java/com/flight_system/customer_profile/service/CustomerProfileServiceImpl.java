@@ -4,6 +4,7 @@ import com.flight_system.customer_profile.client.CustomerClient;
 import com.flight_system.customer_profile.client.CheckInClient;
 import com.flight_system.customer_profile.client.ReservationClient;
 import com.flight_system.customer_profile.dto.*;
+import com.flight_system.customer_profile.exceptions.CustomerProfileNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,21 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfileDTO getCustomerProfile(Long customerId) {
-        // 1. Get Customer Details
-        CustomerDTO customer = customerClient.getCustomerById(customerId);
+        try {
+            // 1. Get Customer Details
+            CustomerDTO customer = customerClient.getCustomerById(customerId);
 
-        // 2. Get Reservations
-        List<ReservationDTO> reservations = reservationClient.getReservationsByCustomerId(customerId);
+            // 2. Get Reservations
+            List<ReservationDTO> reservations = reservationClient.getReservationsByCustomerId(customerId);
 
-        // 3. Get Check-ins
-        List<CheckInDTO> checkIns = checkInClient.getCheckInsByCustomerId(customerId);
+            // 3. Get Check-ins
+            List<CheckInDTO> checkIns = checkInClient.getCheckInsByCustomerId(customerId);
 
-        // 4. Aggregate all data
-        return new CustomerProfileDTO(customer, reservations, checkIns);
+            return new CustomerProfileDTO(customer, reservations, checkIns);
+
+        } catch (feign.FeignException.NotFound notFound) {
+            throw new CustomerProfileNotFoundException("Customer profile not found for ID: " + customerId);
+        }
     }
+
 } 

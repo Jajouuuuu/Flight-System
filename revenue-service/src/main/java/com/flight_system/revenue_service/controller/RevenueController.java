@@ -1,6 +1,8 @@
 package com.flight_system.revenue_service.controller;
 
+import com.flight_system.revenue_service.exceptions.RevenueNotFoundException;
 import com.flight_system.revenue_service.model.Revenue;
+import com.flight_system.revenue_service.repository.RevenueRepository;
 import com.flight_system.revenue_service.service.RevenueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

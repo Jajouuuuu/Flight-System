@@ -64,6 +64,11 @@ spring:
         - id: customer-profile-service
           uri: lb://customer-profile-service
           predicates:
+            - Path=/api/profile/**
+        - id: revenue-service
+          uri: lb://revenue-service
+          predicates:
+            - Path=/api/revenue/**
             - Path=/api/v1/profile/**
 
 eureka:

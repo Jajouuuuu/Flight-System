@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set +e
 
-# adjust if your Kafka lives elsewhere
+# Chemin de Kafka (à adapter si nécessaire)
 KAFKA_HOME="$HOME/Downloads/kafka_2.13-3.9.1"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# List of your Spring-Boot modules
+# Liste des microservices Spring Boot à démarrer
 services=(
   configuration
   discovery
@@ -20,25 +21,25 @@ services=(
 #  payment-service
 #  reservation-service
 #  revenue-service
-#search-service
+#  search-service
 )
 
-# 1) (Optional) Start ZK & Kafka tabs in one window
-gnome-terminal \
-  --title="ZooKeeper" -- bash -ic \
-    "cd $KAFKA_HOME && bin/zookeeper-server-start.sh config/zookeeper.properties; exec bash" \
+# 1) Lancer ZooKeeper dans un nouvel onglet
+osascript -e 'tell application "Terminal"
+  do script "cd '"$KAFKA_HOME"' && bin/zookeeper-server-start.sh config/zookeeper.properties"
+end tell'
 
+# 2) Lancer Kafka dans un autre onglet
+osascript -e 'tell application "Terminal"
+  do script "cd '"$KAFKA_HOME"' && bin/kafka-server-start.sh config/server.properties"
+end tell'
 
-gnome-terminal \
-  --title="Kafka" -- bash -ic \
-    "cd $KAFKA_HOME && bin/kafka-server-start.sh config/server.properties; exec bash"
-
-# give them a moment
+# Laisser le temps à Kafka de démarrer
 sleep 8
 
-# 2) One new window per service
+# 3) Lancer chaque microservice dans un nouvel onglet Terminal
 for svc in "${services[@]}"; do
-  gnome-terminal \
-    --title="$svc" -- bash -ic \
-      "cd $PROJECT_ROOT/$svc && mvn spring-boot:run; exec bash"
+  osascript -e 'tell application "Terminal"
+    do script "cd '"$PROJECT_ROOT/$svc"' && mvn spring-boot:run"
+  end tell'
 done
