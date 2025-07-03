@@ -10,6 +10,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -83,6 +84,71 @@ public class InventoryServiceImpl implements InventoryService {
         inventory.setReservedSeats(inventory.getReservedSeats() - seatsToRelease);
 
         inventoryRepository.save(inventory);
+    }
+
+    // New CRUD methods
+    @Override
+    @Transactional
+    public FlightInventory createInventory(FlightInventory inventory) {
+        log.info("Creating new inventory for flight: {}", inventory.getFlightNumber());
+        
+        // Set available seats equal to total seats if not already set
+        if (inventory.getAvailableSeats() == null) {
+            inventory.setAvailableSeats(inventory.getTotalSeats());
+        }
+        
+        // Set reserved seats to 0 if not already set
+        if (inventory.getReservedSeats() == null) {
+            inventory.setReservedSeats(0);
+        }
+        
+        return inventoryRepository.save(inventory);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FlightInventory> getAllInventories() {
+        return inventoryRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FlightInventory getInventoryByFlightNumber(String flightNumber) {
+        return inventoryRepository.findByFlightNumber(flightNumber)
+                .orElseThrow(() -> new EntityNotFoundException("Inventory not found for flight number: " + flightNumber));
+    }
+
+    @Override
+    @Transactional
+    public FlightInventory updateInventory(Long inventoryId, FlightInventory inventory) {
+        FlightInventory existingInventory = inventoryRepository.findById(inventoryId)
+                .orElseThrow(() -> new EntityNotFoundException("Inventory not found with id: " + inventoryId));
+
+        // Update fields
+        existingInventory.setFlightNumber(inventory.getFlightNumber());
+        existingInventory.setFlightId(inventory.getFlightId());
+        existingInventory.setTotalSeats(inventory.getTotalSeats());
+        existingInventory.setAvailableSeats(inventory.getAvailableSeats());
+        existingInventory.setReservedSeats(inventory.getReservedSeats());
+
+        return inventoryRepository.save(existingInventory);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInventory(Long inventoryId) {
+        if (!inventoryRepository.existsById(inventoryId)) {
+            throw new EntityNotFoundException("Inventory not found with id: " + inventoryId);
+        }
+        inventoryRepository.deleteById(inventoryId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer getAvailableSeats(String flightNumber) {
+        FlightInventory inventory = inventoryRepository.findByFlightNumber(flightNumber)
+                .orElseThrow(() -> new EntityNotFoundException("Inventory not found for flight number: " + flightNumber));
+        return inventory.getAvailableSeats();
     }
 }
 
