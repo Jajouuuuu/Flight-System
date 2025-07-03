@@ -24,7 +24,7 @@ public class SearchController {
     public List<FlightSearchResultDTO> searchFlights(
             @RequestParam String origin,
             @RequestParam String destination,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime departureTime) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime) {
         return searchService.searchFlights(origin, destination, departureTime);
     }
 }

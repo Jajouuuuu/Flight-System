@@ -1,0 +1,53 @@
+{
+  "info": {
+    "_postman_id": "bd8002f5-8db3-414e-bb43-2f55e32a0a00",
+    "name": "Mock Data Seeder",
+    "description": "Collection to seed mock data (customers, routes, aircraft, flights, inventory, bookings, payments) across all micro-services.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer 1",
+          "request": {"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"email\": \"jane.smith@example.com\",\n  \"phoneNumber\": \"+111111111\",\n  \"address\": \"1 Main St\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/customers","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","customers"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('customerId1', pm.response.json().id);"]}}]
+        },
+        {"name":"Create Customer 2","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"firstName\": \"Marc\",\n  \"lastName\": \"Dupont\",\n  \"email\": \"marc.dupont@example.com\",\n  \"phoneNumber\": \"+222222222\",\n  \"address\": \"2 Rue Paris\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/customers","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","customers"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('customerId2', pm.response.json().id);"]}}]},
+        {"name":"Create Customer 3","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"firstName\": \"Sara\",\n  \"lastName\": \"Lee\",\n  \"email\": \"sara.lee@example.com\",\n  \"phoneNumber\": \"+333333333\",\n  \"address\": \"3 Sunset Blvd\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/customers","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","customers"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('customerId3', pm.response.json().id);"]}}]}
+      ]
+    },
+    {
+      "name": "Aircraft",
+      "item": [
+        {"name":"Create Aircraft","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"registrationNumber\": \"DEF456\",\n  \"model\": \"Airbus A320\",\n  \"manufacturer\": \"Airbus\",\n  \"totalSeats\": 180,\n  \"status\": \"ACTIVE\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/aircraft","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('aircraftId', pm.response.json().id);"]}}]}
+      ]
+    },
+    {
+      "name": "Routes",
+      "item": [
+        {"name":"Create Route SFO-LAS","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"originAirport\": \"SFO\",\n  \"destinationAirport\": \"LAS\",\n  \"distanceMiles\": 414,\n  \"estimatedDurationMinutes\": 90,\n  \"basePrice\": 120.00,\n  \"status\": \"ACTIVE\",\n  \"routeCode\": \"SFO-LAS\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/routes","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('routeId1', pm.response.json().id);"]}}]},
+        {"name":"Create Route BOS-MIA","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"originAirport\": \"BOS\",\n  \"destinationAirport\": \"MIA\",\n  \"distanceMiles\": 1258,\n  \"estimatedDurationMinutes\": 200,\n  \"basePrice\": 220.00,\n  \"status\": \"ACTIVE\",\n  \"routeCode\": \"BOS-MIA\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/routes","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('routeId2', pm.response.json().id);"]}}]}
+      ]
+    },
+    {
+      "name": "Flights & Inventory",
+      "item": [
+        {"name":"Create Flight FL200","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"flightNumber\": \"FL200\",\n  \"departureTime\": \"2024-05-01T08:00:00\",\n  \"arrivalTime\": \"2024-05-01T09:30:00\",\n  \"basePrice\": 125.00,\n  \"availableSeats\": 180,\n  \"status\": \"SCHEDULED\",\n  \"aircraft\": { \"id\": {{aircraftId}} },\n  \"route\": { \"id\": {{routeId1}} }\n}"},"url":{"raw":"http://localhost:8080/api/v1/flights","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","flights"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('flightId1', pm.response.json().id);"]}}]},
+        {"name":"Create Flight FL201","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"flightNumber\": \"FL201\",\n  \"departureTime\": \"2024-05-02T07:00:00\",\n  \"arrivalTime\": \"2024-05-02T10:20:00\",\n  \"basePrice\": 230.00,\n  \"availableSeats\": 180,\n  \"status\": \"SCHEDULED\",\n  \"aircraft\": { \"id\": {{aircraftId}} },\n  \"route\": { \"id\": {{routeId2}} }\n}"},"url":{"raw":"http://localhost:8080/api/v1/flights","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","flights"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('flightId2', pm.response.json().id);"]}}]},
+        {"name":"Inventory FL200","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"flightId\": {{flightId1}},\n  \"flightNumber\": \"FL200\",\n  \"totalSeats\": 180,\n  \"availableSeats\": 180,\n  \"reservedSeats\": 0\n}"},"url":{"raw":"http://localhost:8080/api/v1/inventory","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory"]}}},
+        {"name":"Inventory FL201","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"flightId\": {{flightId2}},\n  \"flightNumber\": \"FL201\",\n  \"totalSeats\": 180,\n  \"availableSeats\": 180,\n  \"reservedSeats\": 0\n}"},"url":{"raw":"http://localhost:8080/api/v1/inventory","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory"]}}}
+      ]
+    },
+    {
+      "name": "Bookings & Payments",
+      "item": [
+        {"name":"Booking Jane FL200","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"customerId\": {{customerId1}},\n  \"flightId\": {{flightId1}},\n  \"flightNumber\": \"FL200\",\n  \"passengerName\": \"Jane Smith\",\n  \"passengerEmail\": \"jane.smith@example.com\",\n  \"totalPrice\": 125.00,\n  \"departureTime\": \"2024-05-01T08:00:00\",\n  \"arrivalTime\": \"2024-05-01T09:30:00\",\n  \"originAirport\": \"SFO\",\n  \"destinationAirport\": \"LAS\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/bookings","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","bookings"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('bookingNumber1', pm.response.json().bookingNumber);"]}}]},
+        {"name":"Booking Marc FL201","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"customerId\": {{customerId2}},\n  \"flightId\": {{flightId2}},\n  \"flightNumber\": \"FL201\",\n  \"passengerName\": \"Marc Dupont\",\n  \"passengerEmail\": \"marc.dupont@example.com\",\n  \"totalPrice\": 230.00,\n  \"departureTime\": \"2024-05-02T07:00:00\",\n  \"arrivalTime\": \"2024-05-02T10:20:00\",\n  \"originAirport\": \"BOS\",\n  \"destinationAirport\": \"MIA\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/bookings","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","bookings"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('bookingNumber2', pm.response.json().bookingNumber);"]}}]},
+        {"name":"Payment Jane","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/payments/booking/{{bookingNumber1}}/pay","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","payments","booking","{{bookingNumber1}}","pay"]}}},
+        {"name":"Payment Marc","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/payments/booking/{{bookingNumber2}}/pay","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","payments","booking","{{bookingNumber2}}","pay"]}}}
+      ]
+    }
+  ]
+} 

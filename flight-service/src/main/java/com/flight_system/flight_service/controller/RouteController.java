@@ -88,11 +88,11 @@ public class RouteController {
         return ResponseEntity.ok(route);
     }
 
-    @GetMapping("/within-distance")
+    @GetMapping("/distance")
     public ResponseEntity<List<Route>> getRoutesWithinDistance(@RequestParam Double maxDistance) {
         List<Route> routes = routeService.getRoutesWithinDistance(maxDistance);
         if (routes.isEmpty()) {
-            throw new RouteNotFoundException("No routes found within " + maxDistance + " km");
+            throw new RouteNotFoundException("No routes found within distance: " + maxDistance + " miles");
         }
         return ResponseEntity.ok(routes);
     }

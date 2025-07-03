@@ -37,7 +37,7 @@ public class BookingServiceImpl implements BookingService {
         CircuitBreaker flightCircuitBreaker = circuitBreakerFactory.create("flight-service");
         Map<String, Object> flightData = flightCircuitBreaker.run(
                 () -> restTemplate.getForObject(
-                        "http://flight-service/api/flights/{id}",
+                        "http://flight-service/api/v1/flights/{id}",
                         Map.class,
                         booking.getFlightId()
                 ),
@@ -54,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
         CircuitBreaker customerCircuitBreaker = circuitBreakerFactory.create("customer-service");
         Map<String, Object> customerData = customerCircuitBreaker.run(
                 () -> restTemplate.getForObject(
-                        "http://customer-service/api/customers/{id}",
+                        "http://customer-service/api/v1/customers/{id}",
                         Map.class,
                         booking.getCustomerId()
                 ),
@@ -194,5 +194,11 @@ public class BookingServiceImpl implements BookingService {
                 "paymentId", paymentId,
                 "status", status
         ));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
     }
 }

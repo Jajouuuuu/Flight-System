@@ -1,0 +1,236 @@
+{
+  "info": {
+    "_postman_id": "8cc5c3b2-b9de-466e-9014-1ad3d6e5e322",
+    "name": "Booking",
+    "description": "Postman collection covering all endpoints of the Booking Service (/api/v1/bookings).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"customerId\": {{customerId}},\n    \"flightId\": {{flightId}},\n    \"flightNumber\": \"{{flightNumber}}\",\n    \"passengerName\": \"John Doe\",\n    \"passengerEmail\": \"john.doe@example.com\",\n    \"totalPrice\": 299.99,\n    \"departureTime\": \"2024-01-01T10:00:00\",\n    \"arrivalTime\": \"2024-01-01T12:00:00\",\n    \"originAirport\": \"NYC\",\n    \"destinationAirport\": \"LAX\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "// Save returned bookingNumber for subsequent requests",
+              "if (pm.response.code === 201) {",
+              "    var jsonData = pm.response.json();",
+              "    pm.environment.set('bookingNumber', jsonData.bookingNumber);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Bookings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Booking by Number",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","{{bookingNumber}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Update Booking",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"passengerName\": \"John Doe\",\n    \"passengerEmail\": \"john.doe@example.com\",\n    \"specialRequests\": \"Vegetarian meal\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","{{bookingNumber}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Confirm Booking",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","{{bookingNumber}}","confirm"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Cancel Booking",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/cancel",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","{{bookingNumber}}","cancel"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Customer Bookings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/customer/{{customerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","customer","{{customerId}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Customer Upcoming Bookings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/customer/{{customerId}}/upcoming",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","customer","{{customerId}}","upcoming"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Flight Bookings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/flight/{{flightNumber}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","flight","{{flightNumber}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Confirmed Bookings Count",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/flight/{{flightId}}/count",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","flight","{{flightId}}","count"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Update Payment Status",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/payment?paymentId={{paymentId}}&status={{paymentStatus}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","bookings","{{bookingNumber}}","payment"],
+          "query": [
+            {"key": "paymentId", "value": "{{paymentId}}"},
+            {"key": "status", "value": "{{paymentStatus}}"}
+          ]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "bookingNumber", "value": "BK123"},
+    {"key": "customerId", "value": "1"},
+    {"key": "flightNumber", "value": "FL123"},
+    {"key": "flightId", "value": "1"},
+    {"key": "paymentId", "value": "PAY123"},
+    {"key": "paymentStatus", "value": "COMPLETED"}
+  ]
+} 

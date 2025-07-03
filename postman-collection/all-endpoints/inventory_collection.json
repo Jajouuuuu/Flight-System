@@ -1,0 +1,52 @@
+{
+  "info": {
+    "_postman_id": "4e3569d6-678c-4f5c-8ea2-c0228152e4e2",
+    "name": "Inventory",
+    "description": "Postman collection covering all endpoints of the Inventory Service (inventory & seats).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "Create Inventory",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flightId\": {{flightId}},\n  \"flightNumber\": \"{{flightNumber}}\",\n  \"totalSeats\": 150,\n  \"availableSeats\": 150,\n  \"reservedSeats\": 0\n}"
+            },
+            "url": {"raw": "http://localhost:8080/api/v1/inventory","protocol": "http","host":["localhost"],"port":"8080","path":["api","v1","inventory"]}
+          },
+          "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 201\", ()=> pm.response.to.have.status(201));","if(pm.response.code===201){var j=pm.response.json();pm.environment.set('inventoryId',j.id);} "]}}]
+        },
+        {"name":"Get All Inventories","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/inventory","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Inventory by FlightId","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/inventory/flight/{{flightId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","flight","{{flightId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Inventory by FlightNumber","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/inventory/flight/number/{{flightNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","flight","number","{{flightNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Update Inventory","request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"availableSeats\": 120,\n  \"reservedSeats\": 30\n}"},"url":{"raw":"http://localhost:8080/api/v1/inventory/{{inventoryId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","{{inventoryId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Delete Inventory","request":{"method":"DELETE","url":{"raw":"http://localhost:8080/api/v1/inventory/{{inventoryId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","{{inventoryId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 204\", ()=> pm.response.to.have.status(204));"]}}]},
+        {"name":"Reserve Seats","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/inventory/flight/{{flightNumber}}/reserve?seats={{seats}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","flight","{{flightNumber}}","reserve"],"query":[{"key":"seats","value":"{{seats}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Release Seats","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/inventory/flight/{{flightNumber}}/release?seats={{seats}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","flight","{{flightNumber}}","release"],"query":[{"key":"seats","value":"{{seats}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Available Seats Count","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/inventory/flight/{{flightNumber}}/available-seats","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory","flight","{{flightNumber}}","available-seats"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]}
+      ]
+    },
+    {
+      "name": "Seats",
+      "item": [
+        {"name":"Get Available Seats","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/seats/{{flightNumber}}/available","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","seats","{{flightNumber}}","available"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Reserve Specific Seat","request":{"method":"PUT","url":{"raw":"http://localhost:8080/api/v1/seats/{{flightNumber}}/reserve/{{seatNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","seats","{{flightNumber}}","reserve","{{seatNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Available Seats Count","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/seats/{{flightNumber}}/{{departureTime}}/available/count","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","seats","{{flightNumber}}","{{departureTime}}","available","count"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]}
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "inventoryId", "value": "1"},
+    {"key": "flightId", "value": "1"},
+    {"key": "flightNumber", "value": "FL123"},
+    {"key": "seats", "value": "2"},
+    {"key": "seatNumber", "value": "12A"},
+    {"key": "departureTime", "value": "2024-01-01T10:00:00"}
+  ]
+} 

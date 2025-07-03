@@ -1,0 +1,40 @@
+{
+  "info": {
+    "_postman_id": "a6e5b866-1a9f-4938-9c7b-4c1ef209cf0e",
+    "name": "Reservation",
+    "description": "Postman collection covering all endpoints of the Reservation Service (/api/v1/reservations).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Reservation",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"customerId\": {{customerId}},\n  \"flightNumber\": \"{{flightNumber}}\",\n  \"numberOfSeats\": {{numberOfSeats}}\n}"},
+        "url": {"raw":"http://localhost:8080/api/v1/reservations","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations"]}
+      },
+      "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 201\", ()=> pm.response.to.have.status(201));","if(pm.response.code===201){var j=pm.response.json();pm.environment.set('reservationNumber',j.reservationNumber);} "]}}]
+    },
+    {"name":"Get All Reservations","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Get Reservation by Number","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Update Reservation","request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"numberOfSeats\": {{updatedSeats}}\n}"},"url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Confirm Reservation","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}/confirm","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}","confirm"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Cancel Reservation","request":{"method":"POST","url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}/cancel","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}","cancel"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Delete Reservation","request":{"method":"DELETE","url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 204\", ()=> pm.response.to.have.status(204));"]}}]},
+    {"name":"Update Seat Count","request":{"method":"PUT","url":{"raw":"http://localhost:8080/api/v1/reservations/{{reservationNumber}}/seats?numberOfSeats={{updatedSeats}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","{{reservationNumber}}","seats"],"query":[{"key":"numberOfSeats","value":"{{updatedSeats}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Reservations by Customer","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations/customer/{{customerId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","customer","{{customerId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Reservations by Flight","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations/flight/{{flightNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","flight","{{flightNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Reservations by Status","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations/status/{{reservationStatus}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","status","{{reservationStatus}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+    {"name":"Search Reservations","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/reservations/search?customerEmail={{customerEmail}}&flightNumber={{flightNumber}}&status={{reservationStatus}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","reservations","search"],"query":[{"key":"customerEmail","value":"{{customerEmail}}"},{"key":"flightNumber","value":"{{flightNumber}}"},{"key":"status","value":"{{reservationStatus}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]}
+  ],
+  "variable": [
+    {"key": "reservationNumber", "value": "RSV123"},
+    {"key": "customerId", "value": "1"},
+    {"key": "customerEmail", "value": "john.doe@example.com"},
+    {"key": "flightNumber", "value": "FL123"},
+    {"key": "reservationStatus", "value": "PENDING"},
+    {"key": "numberOfSeats", "value": "2"},
+    {"key": "updatedSeats", "value": "3"}
+  ]
+} 

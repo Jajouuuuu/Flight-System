@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface BookingService {
     Booking createBooking(Booking booking);
+    List<Booking> getAllBookings();
     Booking updateBooking(String bookingNumber, Booking booking);
     void confirmBooking(String bookingNumber);
     void cancelBooking(String bookingNumber);

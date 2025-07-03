@@ -1,0 +1,325 @@
+{
+  "info": {
+    "_postman_id": "af7a4d2c-4e90-4a49-9618-9cc46c70c8e3",
+    "name": "Flight",
+    "description": "Postman collection covering all endpoints of the Flight Service (flights, routes, aircraft).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Flights",
+      "item": [
+        {
+          "name": "Create Flight",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"flightNumber\": \"{{flightNumber}}\",\n    \"departureTime\": \"{{departureTime}}\",\n    \"arrivalTime\": \"{{arrivalTime}}\",\n    \"basePrice\": 299.99,\n    \"availableSeats\": 100,\n    \"status\": \"SCHEDULED\",\n    \"aircraft\": { \"id\": {{aircraftId}} },\n    \"route\": { \"id\": {{routeId}} }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));",
+                  "if(pm.response.code === 200){ var j = pm.response.json(); pm.environment.set('flightId', j.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Flights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Get Flight by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","{{flightId}}"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Get Flight by Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/number/{{flightNumber}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","number","{{flightNumber}}"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Update Flight",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"availableSeats\": 95\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","{{flightId}}"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Update Flight Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/{{flightId}}/status?status={{status}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","{{flightId}}","status"],
+              "query": [
+                {"key": "status", "value": "{{status}}"}
+              ]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Delete Flight",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/{{flightId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","{{flightId}}"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Search Flights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/search?origin={{origin}}&destination={{destination}}&departureTime={{departureTime}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","search"],
+              "query": [
+                {"key": "origin", "value": "{{origin}}"},
+                {"key": "destination", "value": "{{destination}}"},
+                {"key": "departureTime", "value": "{{departureTime}}"}
+              ]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Flights by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/status/{{status}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","status","{{status}}"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Flights in Time Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/timerange?start={{startTime}}&end={{endTime}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","timerange"],
+              "query": [
+                {"key": "start", "value": "{{startTime}}"},
+                {"key": "end", "value": "{{endTime}}"}
+              ]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Update Seats",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/{{flightId}}/seats?change=-1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","{{flightId}}","seats"],
+              "query": [
+                {"key": "change", "value": "-1"}
+              ]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        },
+        {
+          "name": "Is Flight Number Available",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/flights/number/{{flightNumber}}/available",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api","v1","flights","number","{{flightNumber}}","available"]
+            }
+          },
+          "event": [
+            {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Aircraft",
+      "item": [
+        {
+          "name": "Create Aircraft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {"mode":"raw","raw":"{\n  \"registrationNumber\": \"{{registrationNumber}}\",\n  \"model\": \"Boeing 737\",\n  \"manufacturer\": \"Boeing\",\n  \"totalSeats\": 180,\n  \"status\": \"ACTIVE\"\n}"},
+            "url": {"raw":"http://localhost:8080/api/v1/aircraft","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft"]}
+          },
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 201\", ()=> pm.response.to.have.status(201));","if(pm.response.code===201){var j=pm.response.json();pm.environment.set('aircraftId',j.id);} "]}}]
+        },
+        {
+          "name": "Get All Aircraft",
+          "request": {"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]
+        },
+        {
+          "name": "Get Aircraft by ID",
+          "request": {"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft/{{aircraftId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","{{aircraftId}}"]}},
+          "event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]
+        },
+        {"name":"Get Aircraft by Registration","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft/registration/{{registrationNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","registration","{{registrationNumber}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Update Aircraft","request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"status\": \"MAINTENANCE\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/aircraft/{{aircraftId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","{{aircraftId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Delete Aircraft","request":{"method":"DELETE","url":{"raw":"http://localhost:8080/api/v1/aircraft/{{aircraftId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","{{aircraftId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 204\", ()=> pm.response.to.have.status(204));"]}}]},
+        {"name":"Aircraft by Status","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft/status/{{aircraftStatus}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","status","{{aircraftStatus}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Aircraft by Manufacturer","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft/manufacturer/{{manufacturer}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","manufacturer","{{manufacturer}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Aircraft by Model","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/aircraft/model/{{model}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft","model","{{model}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]}
+      ]
+    },
+    {
+      "name": "Routes",
+      "item": [
+        {"name":"Create Route","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"originAirport\": \"{{originAirport}}\",\n  \"destinationAirport\": \"{{destinationAirport}}\",\n  \"distanceMiles\": 2475,\n  \"estimatedDurationMinutes\": 360,\n  \"basePrice\": 299.99,\n  \"status\": \"ACTIVE\",\n  \"routeCode\": \"{{routeCode}}\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/routes","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 201\", ()=> pm.response.to.have.status(201));","if(pm.response.code===201){var j=pm.response.json();pm.environment.set('routeId',j.id);} "]}}]},
+        {"name":"Get All Routes","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Route by ID","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/{{routeId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","{{routeId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Get Route by Code","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/code/{{routeCode}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","code","{{routeCode}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Update Route","request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"status\": \"INACTIVE\"\n}"},"url":{"raw":"http://localhost:8080/api/v1/routes/{{routeId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","{{routeId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Delete Route","request":{"method":"DELETE","url":{"raw":"http://localhost:8080/api/v1/routes/{{routeId}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","{{routeId}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 204\", ()=> pm.response.to.have.status(204));"]}}]},
+        {"name":"Routes by Origin","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/origin/{{originAirport}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","origin","{{originAirport}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Routes by Destination","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/destination/{{destinationAirport}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","destination","{{destinationAirport}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Routes by Status","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/status/{{status}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","status","{{status}}"]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Find Route by Origin & Destination","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/search?origin={{originAirport}}&destination={{destinationAirport}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","search"],"query":[{"key":"origin","value":"{{originAirport}}"},{"key":"destination","value":"{{destinationAirport}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]},
+        {"name":"Routes within Distance","request":{"method":"GET","url":{"raw":"http://localhost:8080/api/v1/routes/distance?maxDistance={{maxDistance}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes","distance"],"query":[{"key":"maxDistance","value":"{{maxDistance}}"}]}},"event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}]}
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "flightId", "value": "1"},
+    {"key": "flightNumber", "value": "FL123"},
+    {"key": "departureTime", "value": "2024-01-01T10:00:00"},
+    {"key": "arrivalTime", "value": "2024-01-01T12:00:00"},
+    {"key": "startTime", "value": "2024-01-01T00:00:00"},
+    {"key": "endTime", "value": "2024-01-02T00:00:00"},
+    {"key": "status", "value": "SCHEDULED"},
+    {"key": "origin", "value": "NYC"},
+    {"key": "destination", "value": "LAX"},
+    {"key": "aircraftId", "value": "1"},
+    {"key": "registrationNumber", "value": "ABC123"},
+    {"key": "aircraftStatus", "value": "ACTIVE"},
+    {"key": "manufacturer", "value": "Boeing"},
+    {"key": "model", "value": "737"},
+    {"key": "routeId", "value": "1"},
+    {"key": "routeCode", "value": "JFK-LAX"},
+    {"key": "originAirport", "value": "JFK"},
+    {"key": "destinationAirport", "value": "LAX"},
+    {"key": "maxDistance", "value": "3000"}
+  ]
+} 

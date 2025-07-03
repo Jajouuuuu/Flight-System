@@ -17,4 +17,9 @@ public interface AccountTransactionRepository extends JpaRepository<AccountTrans
 
     @Query("SELECT t FROM AccountTransaction t WHERE YEAR(t.transactionDate) = :year AND MONTH(t.transactionDate) = :month")
     List<AccountTransaction> findByYearAndMonth(@Param("year") int year, @Param("month") int month);
+
+    @Query("SELECT t FROM AccountTransaction t WHERE t.referenceId = :bookingNumber")
+    List<AccountTransaction> findByBookingNumber(@Param("bookingNumber") String bookingNumber);
+
+    List<AccountTransaction> findByTransactionType(String transactionType);
 }

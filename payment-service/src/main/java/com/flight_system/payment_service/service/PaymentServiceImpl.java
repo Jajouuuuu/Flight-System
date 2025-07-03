@@ -3,14 +3,15 @@ package com.flight_system.payment_service.service;
 import com.flight_system.payment_service.exceptions.PaymentNotFoundException;
 import com.flight_system.payment_service.model.Payment;
 import com.flight_system.payment_service.repository.PaymentRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -71,5 +72,32 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment getPaymentByBookingNumber(String bookingNumber) {
         return paymentRepository.findByBookingNumber(bookingNumber)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found for booking: " + bookingNumber));
+    }
+
+    @Override
+    @Transactional
+    public Payment createPayment(Payment payment) {
+        log.info("Creating new payment for booking: {}", payment.getBookingNumber());
+        return paymentRepository.save(payment);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Payment updatePaymentStatus(Long paymentId, String status) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with id: " + paymentId));
+        
+        payment.setStatus(status);
+        if ("COMPLETED".equals(status)) {
+            payment.setPaymentDate(LocalDateTime.now());
+        }
+        
+        return paymentRepository.save(payment);
     }
 }

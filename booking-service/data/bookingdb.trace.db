@@ -1,0 +1,2 @@
+2025-07-03 11:19:26.520916+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

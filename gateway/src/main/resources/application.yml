@@ -29,10 +29,6 @@ spring:
           uri: lb://check-in-service
           predicates:
             - Path=/api/v1/check-ins/**
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/api/v1/notifications/**
         - id: payment-service
           uri: lb://payment-service
           predicates:
@@ -41,10 +37,6 @@ spring:
           uri: lb://revenue-service
           predicates:
             - Path=/api/v1/revenue/**
-        - id: reporting-service
-          uri: lb://reporting-service
-          predicates:
-            - Path=/api/v1/reports/**
         - id: accounting-service
           uri: lb://accounting-service
           predicates:
@@ -64,11 +56,6 @@ spring:
         - id: customer-profile-service
           uri: lb://customer-profile-service
           predicates:
-            - Path=/api/profile/**
-        - id: revenue-service
-          uri: lb://revenue-service
-          predicates:
-            - Path=/api/revenue/**
             - Path=/api/v1/profile/**
 
 eureka:

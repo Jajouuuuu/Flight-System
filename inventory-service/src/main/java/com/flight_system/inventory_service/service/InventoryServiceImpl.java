@@ -118,14 +118,14 @@ public class InventoryServiceImpl implements InventoryService {
     @Transactional(readOnly = true)
     public FlightInventory getInventoryByFlightNumber(String flightNumber) {
         return inventoryRepository.findByFlightNumber(flightNumber)
-                .orElseThrow(() -> new EntityNotFoundException("Inventory not found for flight number: " + flightNumber));
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found for flight number: " + flightNumber));
     }
 
     @Override
     @Transactional
     public FlightInventory updateInventory(Long inventoryId, FlightInventory inventory) {
         FlightInventory existingInventory = inventoryRepository.findById(inventoryId)
-                .orElseThrow(() -> new EntityNotFoundException("Inventory not found with id: " + inventoryId));
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found with id: " + inventoryId));
 
         // Update fields
         existingInventory.setFlightNumber(inventory.getFlightNumber());
@@ -141,7 +141,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Transactional
     public void deleteInventory(Long inventoryId) {
         if (!inventoryRepository.existsById(inventoryId)) {
-            throw new EntityNotFoundException("Inventory not found with id: " + inventoryId);
+            throw new InventoryNotFoundException("Inventory not found with id: " + inventoryId);
         }
         inventoryRepository.deleteById(inventoryId);
     }
@@ -150,7 +150,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Transactional(readOnly = true)
     public Integer getAvailableSeats(String flightNumber) {
         FlightInventory inventory = inventoryRepository.findByFlightNumber(flightNumber)
-                .orElseThrow(() -> new EntityNotFoundException("Inventory not found for flight number: " + flightNumber));
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory not found for flight number: " + flightNumber));
         return inventory.getAvailableSeats();
     }
 }

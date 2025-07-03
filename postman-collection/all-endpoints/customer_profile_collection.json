@@ -1,0 +1,40 @@
+{
+  "info": {
+    "_postman_id": "2c6fb8cd-9b21-4f6e-bd06-1acc5a7a2efa",
+    "name": "Customer-profile",
+    "description": "Postman collection covering all endpoints of the Customer Profile Service (/api/v1/profile).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Customer Profile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/profile/{{customerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","profile","{{customerId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "customerId", "value": "1"}
+  ]
+} 

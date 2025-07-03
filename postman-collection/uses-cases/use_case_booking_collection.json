@@ -1,0 +1,116 @@
+{
+  "info": {
+    "_postman_id": "aa5a706f-1f5c-40ae-b8ad-7cb78f1e2624",
+    "name": "Use Case - Booking a Flight",
+    "description": "End-to-end workflow: create customer → set up flight → search → booking → payment → check-in → boarding pass (fresh mock data).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Step 1 – Create Customer (Alice Wonderland)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Wonderland\",\n  \"email\": \"alice.wonder@example.com\",\n  \"phoneNumber\": \"+444444444\",\n  \"address\": \"4 Fantasy Rd\"\n}"
+        },
+        "url": {"raw": "http://localhost:8080/api/v1/customers","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","customers"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('uc_customerId', pm.response.json().id);"]}}]
+    },
+    {
+      "name": "Step 2 – Create Aircraft JKL890",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"registrationNumber\": \"JKL890\",\n  \"model\": \"Boeing 787\",\n  \"manufacturer\": \"Boeing\",\n  \"totalSeats\": 242,\n  \"status\": \"ACTIVE\"\n}"},
+        "url": {"raw": "http://localhost:8080/api/v1/aircraft","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","aircraft"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('uc_aircraftId', pm.response.json().id);"]}}]
+    },
+    {
+      "name": "Step 3 – Create Route SJC-SEA",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"originAirport\": \"SJC\",\n  \"destinationAirport\": \"SEA\",\n  \"distanceMiles\": 697,\n  \"estimatedDurationMinutes\": 120,\n  \"basePrice\": 150.00,\n  \"status\": \"ACTIVE\",\n  \"routeCode\": \"SJC-SEA\"\n}"},
+        "url": {"raw": "http://localhost:8080/api/v1/routes","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","routes"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('uc_routeId', pm.response.json().id);"]}}]
+    },
+    {
+      "name": "Step 4 – Create Flight FL999",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"flightNumber\": \"FL999\",\n  \"departureTime\": \"2024-06-15T06:00:00\",\n  \"arrivalTime\": \"2024-06-15T08:00:00\",\n  \"basePrice\": 180.00,\n  \"availableSeats\": 242,\n  \"status\": \"SCHEDULED\",\n  \"aircraft\": { \"id\": {{uc_aircraftId}} },\n  \"route\": { \"id\": {{uc_routeId}} }\n}"},
+        "url": {"raw": "http://localhost:8080/api/v1/flights","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","flights"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["var f = pm.response.json(); pm.environment.set('uc_flightId', f.id); pm.environment.set('uc_flightNumber','FL999');"]}}]
+    },
+    {
+      "name": "Step 5 – Create Inventory for FL999",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"flightId\": {{uc_flightId}},\n  \"flightNumber\": \"FL999\",\n  \"totalSeats\": 242,\n  \"availableSeats\": 242,\n  \"reservedSeats\": 0\n}"},
+        "url": {"raw": "http://localhost:8080/api/v1/inventory","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","inventory"]}
+      }
+    },
+    {
+      "name": "Step 6 – Search Flight via Search Service",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw":"http://localhost:8080/api/v1/search/flights?origin=SJC&destination=SEA&departureTime=2024-06-15T06:00:00","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","search","flights"],"query":[{"key":"origin","value":"SJC"},{"key":"destination","value":"SEA"},{"key":"departureTime","value":"2024-06-15T06:00:00"}]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Search returns at least one flight\", ()=> pm.response.json().length > 0 );"]}}]
+    },
+    {
+      "name": "Step 7 – Create Booking",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"customerId\": {{uc_customerId}},\n  \"flightId\": {{uc_flightId}},\n  \"flightNumber\": \"FL999\",\n  \"passengerName\": \"Alice Wonderland\",\n  \"passengerEmail\": \"alice.wonder@example.com\",\n  \"totalPrice\": 180.00,\n  \"departureTime\": \"2024-06-15T06:00:00\",\n  \"arrivalTime\": \"2024-06-15T08:00:00\",\n  \"originAirport\": \"SJC\",\n  \"destinationAirport\": \"SEA\"\n}"},
+        "url": {"raw": "http://localhost:8080/api/v1/bookings","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","bookings"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('uc_bookingNumber', pm.response.json().bookingNumber);"]}}]
+    },
+    {
+      "name": "Step 8 – Process Payment",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {"raw":"http://localhost:8080/api/v1/payments/booking/{{uc_bookingNumber}}/pay","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","payments","booking","{{uc_bookingNumber}}","pay"]}
+      }
+    },
+    {
+      "name": "Step 9 – Confirm Booking",
+      "request": {"method":"POST","url":{"raw":"http://localhost:8080/api/v1/bookings/{{uc_bookingNumber}}/confirm","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","bookings","{{uc_bookingNumber}}","confirm"]}}
+    },
+    {
+      "name": "Step 10 – Create Check-in",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"bookingNumber\": \"{{uc_bookingNumber}}\",\n  \"customerId\": {{uc_customerId}},\n  \"flightNumber\": \"FL999\"\n}"},
+        "url": {"raw":"http://localhost:8080/api/v1/check-ins","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","check-ins"]}
+      }
+    },
+    {
+      "name": "Step 11 – Create Boarding Pass",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode":"raw","raw":"{\n  \"bookingNumber\": \"{{uc_bookingNumber}}\",\n  \"customerId\": {{uc_customerId}},\n  \"passengerName\": \"Alice Wonderland\",\n  \"flightNumber\": \"FL999\",\n  \"seatNumber\": \"14C\",\n  \"departureTime\": \"2024-06-15T06:00:00\",\n  \"departureGate\": \"B2\",\n  \"boardingTime\": \"2024-06-15T05:30:00\",\n  \"departureAirport\": \"SJC\",\n  \"arrivalAirport\": \"SEA\"\n}"},
+        "url": {"raw":"http://localhost:8080/api/v1/check-ins/boarding-pass","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","check-ins","boarding-pass"]}
+      },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.environment.set('uc_boardingPassNumber', pm.response.json().boardingPassNumber);"]}}]
+    },
+    {
+      "name": "Step 12 – Retrieve Boarding Pass",
+      "request": {"method":"GET","url":{"raw":"http://localhost:8080/api/v1/check-ins/boarding-pass/{{uc_boardingPassNumber}}","protocol":"http","host":["localhost"],"port":"8080","path":["api","v1","check-ins","boarding-pass","{{uc_boardingPassNumber}}"]}}
+    }
+  ]
+} 

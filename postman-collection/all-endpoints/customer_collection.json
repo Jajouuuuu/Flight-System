@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "5f0c6de6-62e9-4a63-9b67-2cfc47d6a5d9",
+    "name": "Customer",
+    "description": "Postman collection covering all endpoints of the Customer Service (/api/v1/customers).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Customer by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers","{{customerId}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Get Customer by Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers/email/{{email}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers","email","{{email}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Create Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"{{email}}\",\n    \"phoneNumber\": \"+1234567890\",\n    \"address\": \"123 Main St\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", ()=> pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) {",
+              "  var jsonData = pm.response.json();",
+              "  pm.environment.set('customerId', jsonData.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Customer",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"{{email}}\",\n    \"phoneNumber\": \"+1234567890\",\n    \"address\": \"456 New St\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers","{{customerId}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    },
+    {
+      "name": "Delete Customer",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers/{{customerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers","{{customerId}}"]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 204\", ()=> pm.response.to.have.status(204));"]}}
+      ]
+    },
+    {
+      "name": "Search Customers by Last Name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/customers/search?lastName={{lastName}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","v1","customers","search"],
+          "query": [
+            {"key": "lastName", "value": "{{lastName}}"}
+          ]
+        }
+      },
+      "event": [
+        {"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", ()=> pm.response.to.have.status(200));"]}}
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "customerId", "value": "1"},
+    {"key": "email", "value": "john.doe@example.com"},
+    {"key": "lastName", "value": "Doe"}
+  ]
+} 

@@ -30,6 +30,7 @@ public class AccountingServiceImpl {
         AccountTransaction transaction = AccountTransaction.builder()
                 .referenceId(bookingNumber)
                 .amount(amount)
+                .transactionType("PAYMENT")
                 .build();
 
         transactionRepository.save(transaction);

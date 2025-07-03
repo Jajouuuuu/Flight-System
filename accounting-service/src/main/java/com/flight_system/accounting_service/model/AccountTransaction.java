@@ -26,7 +26,10 @@ public class AccountTransaction {
     private Double amount;
 
     @Column(name = "reference_id")
-    private String referenceId; // par exemple numéro de réservation
+    private String referenceId; // e.g. bookingNumber
+
+    @Column(name = "transaction_type")
+    private String transactionType; // e.g. PAYMENT, REFUND
 
     @PrePersist
     protected void onCreate() {
