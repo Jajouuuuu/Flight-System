@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "7d0973e4-4a52-45d9-b969-d49554720450",
+		"name": "Use Case - Revenue",
+		"description": "Étapes nécessaires pour démontrer les revenus générés suite à un paiement.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42889224"
+	},
+	"item": [
+		{
+			"name": "Revenue Use Case",
+			"item": [
+				{
+					"name": "1 - Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Test\",\n  \"email\": \"alice.test@example.com\",\n  \"phoneNumber\": \"+33123456789\",\n  \"address\": \"1 rue de Paris\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Create Flight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"flightNumber\": \"FL123\",\n  \"departureTime\": \"2024-05-01T08:00:00\",\n  \"arrivalTime\": \"2024-05-01T09:30:00\",\n  \"basePrice\": 125.00,\n  \"availableSeats\": 180,\n  \"status\": \"SCHEDULED\",\n  \"aircraft\": { \"id\": 1 },\n  \"route\": { \"id\": 1 }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3 – Create Inventory for FL123",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"flightId\": {{uc_flightId}},\n  \"flightNumber\": \"FL999\",\n  \"totalSeats\": 242,\n  \"availableSeats\": 242,\n  \"reservedSeats\": 0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/inventory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Create Booking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerId\": 1,\n  \"flightId\": 1,\n  \"flightNumber\": \"FL123\",\n  \"passengerName\": \"Alice Test\",\n  \"passengerEmail\": \"alice.test@example.com\",\n  \"totalPrice\": 299.99,\n  \"departureTime\": \"2025-06-22T10:00:00\",\n  \"arrivalTime\": \"2025-06-22T12:00:00\",\n  \"originAirport\": \"CDG\",\n  \"destinationAirport\": \"LHR\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4 - Confirm Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/bookings/{{bookingNumber}}/confirm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"{{bookingNumber}}",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5 - Process Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/payments/booking/{{bookingNumber}}/pay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"booking",
+								"{{bookingNumber}}",
+								"pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6 - Get Revenue for Flight",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"revenue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7 - Get Total Revenue for Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/revenue/total?date=2025-06-22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"revenue",
+								"total"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-06-22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

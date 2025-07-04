@@ -4,7 +4,7 @@ set +e
 
 # Chemin de Kafka (à adapter si nécessaire)
 KAFKA_HOME="$HOME/Downloads/kafka_2.13-3.9.1"
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 # Liste des microservices Spring Boot à démarrer
 services=(
